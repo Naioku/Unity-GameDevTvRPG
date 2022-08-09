@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 436ae421350b2d24cacb6fecd192dafa, type: 2}
---- !u!1 &55104764
+--- !u!1 &50408811
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,9 +131,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 55104765}
-  - component: {fileID: 55104767}
-  - component: {fileID: 55104766}
+  - component: {fileID: 50408812}
+  - component: {fileID: 50408814}
+  - component: {fileID: 50408813}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -141,13 +141,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
   m_IsActive: 1
---- !u!4 &55104765
+--- !u!4 &50408812
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55104764}
+  m_GameObject: {fileID: 50408811}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -156,27 +156,27 @@ Transform:
   m_Father: {fileID: 1782936928}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!154 &55104766
+--- !u!154 &50408813
 TerrainCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55104764}
+  m_GameObject: {fileID: 50408811}
   m_Material: {fileID: 0}
   m_Enabled: 1
-  m_TerrainData: {fileID: 15600000, guid: 2a96fc2712fb0d546996dbf705b0602c, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 5778d6675da52004a9539e1d9b0bc0ba, type: 2}
   m_EnableTreeColliders: 1
---- !u!218 &55104767
+--- !u!218 &50408814
 Terrain:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 55104764}
+  m_GameObject: {fileID: 50408811}
   m_Enabled: 1
   serializedVersion: 6
-  m_TerrainData: {fileID: 15600000, guid: 2a96fc2712fb0d546996dbf705b0602c, type: 2}
+  m_TerrainData: {fileID: 15600000, guid: 5778d6675da52004a9539e1d9b0bc0ba, type: 2}
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
@@ -2184,6 +2184,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Bld_Hut_01
       objectReference: {fileID: 0}
+    - target: {fileID: 196646, guid: 5a346deceb21d0c4781e67a70fbcc1f6, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 409538, guid: 5a346deceb21d0c4781e67a70fbcc1f6, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -2877,7 +2881,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7772512, y: 1}
+    m_SensorSize: {x: 1.7782805, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -2917,7 +2921,7 @@ Transform:
   - {fileID: 2100010436}
   - {fileID: 1860875289}
   - {fileID: 1577036615}
-  - {fileID: 55104765}
+  - {fileID: 50408812}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
