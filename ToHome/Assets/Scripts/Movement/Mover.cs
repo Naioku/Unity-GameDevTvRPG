@@ -6,11 +6,18 @@ namespace Movement
     [RequireComponent(typeof(NavMeshAgent))]
     public class Mover : MonoBehaviour
     {
-        [SerializeField] private Transform target;
-
         private void Update()
         {
-            GetComponent<NavMeshAgent>().destination = target.position;
+            if (Input.GetMouseButtonDown(0))
+            {
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                bool hasHit = Physics.Raycast(ray, out hit);
+                if (hasHit)
+                {
+                    GetComponent<NavMeshAgent>().destination = hit.point;
+                }
+            }
         }
     }
 }
