@@ -10,23 +10,12 @@ namespace Movement
 
         private void Update()
         {
-            if (Input.GetMouseButton(0))
-            {
-                MoveToPoint();
-            }
-
             UpdateAnimator();
         }
 
-        private void MoveToPoint()
+        public void MoveTo(Vector3 destination)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            bool hasHit = Physics.Raycast(ray, out hit);
-            if (hasHit)
-            {
-                GetComponent<NavMeshAgent>().destination = hit.point;
-            }
+            GetComponent<NavMeshAgent>().destination = destination;
         }
 
         private void UpdateAnimator()
