@@ -10,13 +10,18 @@ namespace Movement
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                bool hasHit = Physics.Raycast(ray, out hit);
-                if (hasHit)
-                {
-                    GetComponent<NavMeshAgent>().destination = hit.point;
-                }
+                MoveToPoint();
+            }
+        }
+
+        private void MoveToPoint()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            bool hasHit = Physics.Raycast(ray, out hit);
+            if (hasHit)
+            {
+                GetComponent<NavMeshAgent>().destination = hit.point;
             }
         }
     }
