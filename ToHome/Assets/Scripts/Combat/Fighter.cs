@@ -12,6 +12,7 @@ namespace Combat
     {
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
+        [SerializeField] private float weaponDamage = 5f;
         
         private Transform _target;
         private float _timeSinceLastAttack;
@@ -39,26 +40,27 @@ namespace Combat
         private void AttackBehaviour()
         {
             if (_timeSinceLastAttack < timeBetweenAttacks) return;
+            
+            // This trigger the Hit() event.
             GetComponent<Animator>().SetTrigger(Attack1);
             _timeSinceLastAttack = 0f;
+        }
+        
+        // Animation Event
+        private void Hit()
+        {
+            _target.GetComponent<Health>().TakeDamage(weaponDamage);
         }
 
         public void Attack(CombatTarget target)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             _target = target.transform;
-            print("Take that, klus!");
         }
 
         public void CancelAction()
         {
             _target = null;
-        }
-        
-        // Animation Event
-        private void Hit()
-        {
-            
         }
     }
 }
