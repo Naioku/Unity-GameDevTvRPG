@@ -11,7 +11,6 @@ namespace Movement
     public class Mover : MonoBehaviour, IAction
     {
         private NavMeshAgent _navMeshAgent;
-        
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
 
         private void Start()

@@ -14,21 +14,23 @@ namespace Combat
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private float weaponDamage = 5f;
         
-        private Transform _target;
+        private Health _target;
         private float _timeSinceLastAttack;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
+        private static readonly int StopAttack = Animator.StringToHash("stopAttack");
 
         private void Update()
         {
             _timeSinceLastAttack += Time.deltaTime;
             
-            if (_target == null) return;
+            if (_target == null ||
+                _target.IsDead) return;
             
-            bool isInRange = Vector3.Distance(transform.position, _target.position) <= weaponRange;
+            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= weaponRange;
             if (!isInRange)
             {
-                GetComponent<Mover>().MoveTo(_target.position);
+                GetComponent<Mover>().MoveTo(_target.transform.position);
             }
             else
             {
@@ -49,17 +51,20 @@ namespace Combat
         // Animation Event
         private void Hit()
         {
-            _target.GetComponent<Health>().TakeDamage(weaponDamage);
+            if (_target == null) return;
+            
+            _target.TakeDamage(weaponDamage);
         }
 
         public void Attack(CombatTarget target)
         {
             GetComponent<ActionScheduler>().StartAction(this);
-            _target = target.transform;
+            _target = target.GetComponent<Health>();
         }
 
         public void CancelAction()
         {
+            GetComponent<Animator>().SetTrigger(StopAttack);
             _target = null;
         }
     }
