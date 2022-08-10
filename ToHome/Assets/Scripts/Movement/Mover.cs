@@ -1,11 +1,12 @@
 using Combat;
+using Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Movement
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, IAction
     {
         private NavMeshAgent _navMeshAgent;
         
@@ -23,7 +24,7 @@ namespace Movement
 
         public void StartMoveAction(Vector3 destination)
         {
-            GetComponent<Fighter>().Cancel();
+            GetComponent<ActionScheduler>().StartAction(this);
             MoveTo(destination);
         }
         
@@ -33,17 +34,17 @@ namespace Movement
             _navMeshAgent.isStopped = false;
         }
 
-        public void Stop()
-        {
-            _navMeshAgent.isStopped = true;
-        }
-
         private void UpdateAnimator()
         {
             Vector3 globalVelocity = _navMeshAgent.velocity;
             Vector3 localVelocity = transform.InverseTransformDirection(globalVelocity);
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
+        }
+
+        public void CancelAction()
+        {
+            _navMeshAgent.isStopped = true;
         }
     }
 }
