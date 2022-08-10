@@ -1,11 +1,13 @@
-using Combat;
 using Core;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Movement
 {
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(
+        typeof(NavMeshAgent),
+        typeof(ActionScheduler),
+        typeof(Animator))]
     public class Mover : MonoBehaviour, IAction
     {
         private NavMeshAgent _navMeshAgent;

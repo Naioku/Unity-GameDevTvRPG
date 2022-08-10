@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace Combat
 {
-    [RequireComponent(typeof(Mover))]
+    [RequireComponent(
+        typeof(Mover), 
+        typeof(Animator),
+        typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float weaponRange = 2f;
         
         private Transform _target;
+        
+        private static readonly int Attack1 = Animator.StringToHash("attack");
 
         private void Update()
         {
@@ -23,6 +28,7 @@ namespace Combat
             else
             {
                 GetComponent<Mover>().CancelAction();
+                GetComponent<Animator>().SetTrigger(Attack1);
             }
         }
 
@@ -36,6 +42,12 @@ namespace Combat
         public void CancelAction()
         {
             _target = null;
+        }
+        
+        // Animation Event
+        private void Hit()
+        {
+            
         }
     }
 }
