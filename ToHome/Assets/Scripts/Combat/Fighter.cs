@@ -11,13 +11,17 @@ namespace Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float weaponRange = 2f;
+        [SerializeField] private float timeBetweenAttacks = 1f;
         
         private Transform _target;
+        private float _timeSinceLastAttack;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
 
         private void Update()
         {
+            _timeSinceLastAttack += Time.deltaTime;
+            
             if (_target == null) return;
             
             bool isInRange = Vector3.Distance(transform.position, _target.position) <= weaponRange;
@@ -28,8 +32,15 @@ namespace Combat
             else
             {
                 GetComponent<Mover>().CancelAction();
-                GetComponent<Animator>().SetTrigger(Attack1);
+                AttackBehaviour();
             }
+        }
+
+        private void AttackBehaviour()
+        {
+            if (_timeSinceLastAttack < timeBetweenAttacks) return;
+            GetComponent<Animator>().SetTrigger(Attack1);
+            _timeSinceLastAttack = 0f;
         }
 
         public void Attack(CombatTarget target)
