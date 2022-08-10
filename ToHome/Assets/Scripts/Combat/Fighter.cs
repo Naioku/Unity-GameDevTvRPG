@@ -39,21 +39,11 @@ namespace Combat
             }
         }
 
-        private void AttackBehaviour()
+        public bool CanAttack(CombatTarget combatTarget)
         {
-            if (_timeSinceLastAttack < timeBetweenAttacks) return;
-            
-            // This trigger the Hit() event.
-            GetComponent<Animator>().SetTrigger(Attack1);
-            _timeSinceLastAttack = 0f;
-        }
-        
-        // Animation Event
-        private void Hit()
-        {
-            if (_target == null) return;
-            
-            _target.TakeDamage(weaponDamage);
+            if (combatTarget == null) return false;
+            var testedTarget = combatTarget.GetComponent<Health>();
+            return testedTarget != null && !testedTarget.IsDead;
         }
 
         public void Attack(CombatTarget target)
@@ -64,8 +54,39 @@ namespace Combat
 
         public void CancelAction()
         {
-            GetComponent<Animator>().SetTrigger(StopAttack);
+            TriggerStopAttackAnimation();
             _target = null;
+        }
+
+        private void TriggerStopAttackAnimation()
+        {
+            var animator = GetComponent<Animator>();
+            animator.ResetTrigger(Attack1);
+            animator.SetTrigger(StopAttack);
+        }
+
+        private void AttackBehaviour()
+        {
+            transform.LookAt(_target.transform);
+            if (_timeSinceLastAttack < timeBetweenAttacks) return;
+            
+            TriggerAttackAnimation();
+            _timeSinceLastAttack = 0f;
+        }
+
+        private void TriggerAttackAnimation()
+        {
+            var animator = GetComponent<Animator>();
+            animator.ResetTrigger(StopAttack);
+            animator.SetTrigger(Attack1); // This trigger the Hit() event.
+        }
+
+        // Animation Event
+        private void Hit()
+        {
+            if (_target == null) return;
+            
+            _target.TakeDamage(weaponDamage);
         }
     }
 }
