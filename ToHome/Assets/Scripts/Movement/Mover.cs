@@ -1,4 +1,4 @@
-using System;
+using Combat;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,6 +21,12 @@ namespace Movement
             UpdateAnimator();
         }
 
+        public void StartMoveAction(Vector3 destination)
+        {
+            GetComponent<Fighter>().Cancel();
+            MoveTo(destination);
+        }
+        
         public void MoveTo(Vector3 destination)
         {
             _navMeshAgent.destination = destination;

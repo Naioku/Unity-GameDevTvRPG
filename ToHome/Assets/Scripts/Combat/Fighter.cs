@@ -12,19 +12,13 @@ namespace Combat
 
         private void Update()
         {
-            var mover = GetComponent<Mover>();
+            if (_target == null) return;
             
-            if (_target != null)
+            var mover = GetComponent<Mover>();
+            bool isInRange = Vector3.Distance(transform.position, _target.position) <= weaponRange;
+            if (!isInRange)
             {
-                bool isInRange = Vector3.Distance(transform.position, _target.position) <= weaponRange;
-                if (!isInRange)
-                {
-                    mover.MoveTo(_target.position);
-                }
-                else
-                {
-                    mover.Stop();
-                }
+                mover.MoveTo(_target.position);
             }
             else
             {
@@ -36,6 +30,11 @@ namespace Combat
         {
             _target = target.transform;
             print("Take that, klus!");
+        }
+
+        public void Cancel()
+        {
+            _target = null;
         }
     }
 }
