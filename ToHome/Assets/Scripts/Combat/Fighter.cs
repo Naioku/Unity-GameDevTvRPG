@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Movement;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Combat
         [SerializeField] private float weaponDamage = 5f;
         
         private Health _target;
-        private float _timeSinceLastAttack;
+        private float _timeSinceLastAttack = Mathf.Infinity;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
         private static readonly int StopAttack = Animator.StringToHash("stopAttack");
@@ -39,14 +40,14 @@ namespace Combat
             }
         }
 
-        public bool CanAttack(CombatTarget combatTarget)
+        public bool CanAttack(GameObject target)
         {
-            if (combatTarget == null) return false;
-            var testedTarget = combatTarget.GetComponent<Health>();
+            if (target == null) return false;
+            var testedTarget = target.GetComponent<Health>();
             return testedTarget != null && !testedTarget.IsDead;
         }
 
-        public void Attack(CombatTarget target)
+        public void Attack(GameObject target)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             _target = target.GetComponent<Health>();
