@@ -39,14 +39,14 @@ namespace Combat
             }
         }
 
-        public bool CanAttack(CombatTarget combatTarget)
+        public bool CanAttack(GameObject target)
         {
-            if (combatTarget == null) return false;
-            var testedTarget = combatTarget.GetComponent<Health>();
+            if (target == null) return false;
+            var testedTarget = target.GetComponent<Health>();
             return testedTarget != null && !testedTarget.IsDead;
         }
 
-        public void Attack(CombatTarget target)
+        public void Attack(GameObject target)
         {
             GetComponent<ActionScheduler>().StartAction(this);
             _target = target.GetComponent<Health>();

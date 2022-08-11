@@ -1,23 +1,41 @@
+using System;
+using Combat;
+using Movement;
 using UnityEngine;
 
 namespace Control
 {
+    [RequireComponent(
+        typeof(Mover),
+        typeof(Fighter))]
     public class AIController : MonoBehaviour
     {
         [SerializeField] private float chaseDistance = 5f;
-        
+
+        private Fighter _fighter;
+        private GameObject _player;
+
+        private void Start()
+        {
+            _fighter = GetComponent<Fighter>();
+            _player = GameObject.FindWithTag("Player");
+        }
+
         void Update()
         {
-            if (ShouldChasePlayer())
+            if (IsInAttackRange(_player) && _fighter.CanAttack(_player))
             {
-                print(name + " should chase.");
+                _fighter.Attack(_player);
+            }
+            else
+            {
+                _fighter.CancelAction();
             }
         }
 
-        private bool ShouldChasePlayer()
+        private bool IsInAttackRange(GameObject target)
         {
-            GameObject player = GameObject.FindWithTag("Player");
-            return Vector3.Distance(transform.position, player.transform.position) <= chaseDistance;
+            return Vector3.Distance(transform.position, target.transform.position) <= chaseDistance;
         }
     }
 }

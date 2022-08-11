@@ -4,7 +4,9 @@ using UnityEngine;
 
 namespace Control
 {
-    [RequireComponent(typeof(Mover))]
+    [RequireComponent(
+        typeof(Mover),
+        typeof(Fighter))]
     public class PlayerController : MonoBehaviour
     {
         void Update()
@@ -20,11 +22,13 @@ namespace Control
             foreach (RaycastHit hit in hits)
             {
                 CombatTarget combatTarget = hit.transform.GetComponent<CombatTarget>();
-                if (!GetComponent<Fighter>().CanAttack(combatTarget)) continue;
+                if (combatTarget == null) continue;
+                
+                if (!GetComponent<Fighter>().CanAttack(combatTarget.gameObject)) continue;
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    GetComponent<Fighter>().Attack(combatTarget);
+                    GetComponent<Fighter>().Attack(combatTarget.gameObject);
                 }
                 
                 return true;
