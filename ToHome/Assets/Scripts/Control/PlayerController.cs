@@ -1,4 +1,3 @@
-using System;
 using Combat;
 using Core;
 using Movement;
@@ -6,10 +5,6 @@ using UnityEngine;
 
 namespace Control
 {
-    [RequireComponent(
-        typeof(Mover),
-        typeof(Fighter),
-        typeof(Health))]
     public class PlayerController : MonoBehaviour
     {
         private Health _health;
