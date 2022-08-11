@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Movement;
 using UnityEngine;
@@ -15,7 +16,7 @@ namespace Combat
         [SerializeField] private float weaponDamage = 5f;
         
         private Health _target;
-        private float _timeSinceLastAttack;
+        private float _timeSinceLastAttack = Mathf.Infinity;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
         private static readonly int StopAttack = Animator.StringToHash("stopAttack");

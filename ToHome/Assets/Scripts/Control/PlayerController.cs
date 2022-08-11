@@ -1,4 +1,6 @@
+using System;
 using Combat;
+using Core;
 using Movement;
 using UnityEngine;
 
@@ -6,11 +8,21 @@ namespace Control
 {
     [RequireComponent(
         typeof(Mover),
-        typeof(Fighter))]
+        typeof(Fighter),
+        typeof(Health))]
     public class PlayerController : MonoBehaviour
     {
+        private Health _health;
+
+        private void Start()
+        {
+            _health = GetComponent<Health>();
+        }
+
         void Update()
         {
+            if (_health.IsDead) return;
+            
             if (InteractWithCombat()) return;
             if (InteractWithMovement()) return;
             print("Nothing to do.");
