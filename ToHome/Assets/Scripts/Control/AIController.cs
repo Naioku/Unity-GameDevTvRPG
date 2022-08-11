@@ -1,3 +1,4 @@
+using System;
 using Combat;
 using Core;
 using Movement;
@@ -41,6 +42,13 @@ namespace Control
         private bool IsInAttackRange(GameObject target)
         {
             return Vector3.Distance(transform.position, target.transform.position) <= chaseDistance;
+        }
+
+        // Called by Unity
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseDistance);
         }
     }
 }
