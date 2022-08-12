@@ -15,7 +15,10 @@ namespace SceneManagement
         [SerializeField] private int destinationSceneIndex = -1;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private DestinationIdentifier destination;
-        
+        [SerializeField] private float fadeOutTime = 1f;
+        [SerializeField] private float fadeInTime = 2f;
+        [SerializeField] private float waitBetweenFadesTime = 0.5f;
+
         private void OnTriggerEnter(Collider other)
         {
             if (!other.tag.Equals("Player")) return;
@@ -30,14 +33,20 @@ namespace SceneManagement
                 Debug.LogError("Scene to load not set.");
                 yield break;
             }
-            
+
             DontDestroyOnLoad(gameObject);
+            
+            var fader = FindObjectOfType<Fader>();
+            yield return fader.FadeOut(fadeOutTime);
+
             yield return SceneManager.LoadSceneAsync(destinationSceneIndex);
             
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
+            
+            yield return new WaitForSecondsRealtime(waitBetweenFadesTime);
+            yield return fader.FadeIn(fadeInTime);
 
-            print("Scene loaded.");
             Destroy(gameObject);
         }
 
