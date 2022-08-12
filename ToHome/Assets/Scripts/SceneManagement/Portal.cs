@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,8 +11,16 @@ namespace SceneManagement
         private void OnTriggerEnter(Collider other)
         {
             if (!other.tag.Equals("Player")) return;
+            
+            StartCoroutine(Transition());
+        }
 
-            SceneManager.LoadScene(destinationSceneIndex);
+        private IEnumerator Transition()
+        {
+            DontDestroyOnLoad(gameObject);
+            yield return SceneManager.LoadSceneAsync(destinationSceneIndex);
+            print("Scene loaded.");
+            Destroy(gameObject);
         }
     }
 }
