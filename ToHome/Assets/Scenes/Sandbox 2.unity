@@ -1119,6 +1119,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5160543682657885204, guid: 4093d59f4b0241148b678ed55ac417d4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.093
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160543682657885204, guid: 4093d59f4b0241148b678ed55ac417d4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.70710653
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160543682657885204, guid: 4093d59f4b0241148b678ed55ac417d4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70710707
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160543682657885204, guid: 4093d59f4b0241148b678ed55ac417d4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
     - target: {fileID: 5484540185491461250, guid: 4093d59f4b0241148b678ed55ac417d4, type: 3}
       propertyPath: m_RootOrder
       value: 1
