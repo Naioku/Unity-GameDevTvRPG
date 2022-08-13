@@ -9,6 +9,9 @@ namespace Saving
     public class SavableEntity : MonoBehaviour
     {
         [SerializeField] private string uniqueIdentifier = "";
+
+        private static readonly Dictionary<string, SavableEntity> GlobalLookup = new();
+
         public string GetUniqueIdentifier()
         {
             return uniqueIdentifier;
@@ -46,11 +49,31 @@ namespace Saving
             SerializedObject serializedObject = new SerializedObject(this);
             SerializedProperty property = serializedObject.FindProperty("uniqueIdentifier");
 
-            if (string.IsNullOrEmpty(property.stringValue))
+            if (string.IsNullOrEmpty(property.stringValue) || !IsUnique(property.stringValue))
             {
                 property.stringValue = Guid.NewGuid().ToString();
                 serializedObject.ApplyModifiedProperties();
             }
+
+            GlobalLookup[property.stringValue] = this;
+        }
+
+        private bool IsUnique(string candidate)
+        {
+            if (!GlobalLookup.ContainsKey(candidate)) return true;
+            if (GlobalLookup[candidate] == this) return true;
+            if (GlobalLookup[candidate] == null)
+            {
+                GlobalLookup.Remove(candidate);
+                return true;
+            }
+
+            if (GlobalLookup[candidate].GetUniqueIdentifier() != candidate)
+            {
+                GlobalLookup.Remove(candidate);
+                return true;
+            }
+            return false;
         }
     }
 }
