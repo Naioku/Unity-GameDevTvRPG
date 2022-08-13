@@ -9,23 +9,41 @@ namespace Saving
     {
         public void Save(string fileName)
         {
-            string path = GetPathFromSaveFile(fileName);
-            print("Saving to " + path);
-            using (FileStream stream = File.Open(path, FileMode.Create))
-            {
-                var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(stream, CaptureState());
-            }
+            Dictionary<string, object> state = LoadFile(fileName);
+            CaptureState(state);
+            SaveFile(fileName, state);
+            print("Game saved.");
         }
 
         public void Load(string fileName)
         {
+            RestoreState(LoadFile(fileName));
+            print("Game loaded.");
+        }
+
+        private void SaveFile(string fileName, object state)
+        {
             string path = GetPathFromSaveFile(fileName);
-            print("Loading from " + path);
+            using (FileStream stream = File.Open(path, FileMode.Create))
+            {
+                var binaryFormatter = new BinaryFormatter();
+                binaryFormatter.Serialize(stream, state);
+            }
+        }
+
+        private Dictionary<string, object> LoadFile(string fileName)
+        {
+            string path = GetPathFromSaveFile(fileName);
+            
+            if (!File.Exists(path))
+            {
+                return new Dictionary<string, object>();
+            }
+            
             using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 var binaryFormatter = new BinaryFormatter();
-                RestoreState(binaryFormatter.Deserialize(stream));
+                return (Dictionary<string, object>) binaryFormatter.Deserialize(stream);
             }
         }
 
@@ -34,23 +52,23 @@ namespace Saving
             return Path.Combine(Application.persistentDataPath, fileName + ".sav");
         }
 
-        private object CaptureState()
+        private void CaptureState(Dictionary<string, object> state)
         {
-            var state = new Dictionary<string, object>();
             foreach (var entity in FindObjectsOfType<SavableEntity>())
             {
                 state[entity.GetUniqueIdentifier()] = entity.CaptureState();
             }
-
-            return state;
         }
 
-        private void RestoreState(object state)
+        private void RestoreState(Dictionary<string, object> state)
         {
-            var stateDict = (Dictionary<string, object>) state;
             foreach (var entity in FindObjectsOfType<SavableEntity>())
             {
-                entity.RestoreState(stateDict[entity.GetUniqueIdentifier()]);
+                string id = entity.GetUniqueIdentifier();
+                if (state.ContainsKey(id))
+                {
+                    entity.RestoreState(state[id]);
+                }
             }
         }
     }
