@@ -1,10 +1,11 @@
 using Core;
+using Saving;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Movement
 {
-    public class Mover : MonoBehaviour, IAction
+    public class Mover : MonoBehaviour, IAction, ISavable
     {
         private NavMeshAgent _navMeshAgent;
         private Health _health;
@@ -36,17 +37,31 @@ namespace Movement
             _navMeshAgent.isStopped = false;
         }
 
+        public void CancelAction()
+        {
+            _navMeshAgent.isStopped = true;
+        }
+
+        public object CaptureState()
+        {
+            return new SerializableVector3(transform.position);
+        }
+
+        public void RestoreState(object state)
+        {
+            GetComponent<ActionScheduler>().CancelCurrentAction();
+            var navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshAgent.enabled = false;
+            transform.position = ((SerializableVector3) state).ToVector();
+            navMeshAgent.enabled = true;
+        }
+
         private void UpdateAnimator()
         {
             Vector3 globalVelocity = _navMeshAgent.velocity;
             Vector3 localVelocity = transform.InverseTransformDirection(globalVelocity);
             float speed = localVelocity.z;
             GetComponent<Animator>().SetFloat(ForwardSpeed, speed);
-        }
-
-        public void CancelAction()
-        {
-            _navMeshAgent.isStopped = true;
         }
     }
 }

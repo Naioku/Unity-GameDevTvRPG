@@ -1,8 +1,7 @@
 using System;
-using Core;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Saving
 {
@@ -17,16 +16,26 @@ namespace Saving
 
         public object CaptureState()
         {
-            return new SerializableVector3(transform.position);
+            var state = new Dictionary<string, object>();
+            foreach (var savable in GetComponents<ISavable>())
+            {
+                state[savable.GetType().ToString()] = savable.CaptureState();
+            }
+
+            return state;
         }
         
         public void RestoreState(object state)
         {
-            GetComponent<ActionScheduler>().CancelCurrentAction();
-            var navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
-            transform.position = ((SerializableVector3) state).ToVector();
-            navMeshAgent.enabled = true;
+            var stateDict = (Dictionary<string, object>) state;
+            foreach (var savable in GetComponents<ISavable>())
+            {
+                string typeString = savable.GetType().ToString();
+                if (stateDict.ContainsKey(typeString))
+                {
+                    savable.RestoreState(stateDict[typeString]);
+                }
+            }
         }
 
         private void Update()
