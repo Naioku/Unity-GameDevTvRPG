@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Saving
@@ -12,10 +13,10 @@ namespace Saving
         
         private SavingSystem _savingSystem;
 
-        private void Start()
+        private IEnumerator Start()
         {
             _savingSystem = GetComponent<SavingSystem>();
-            Load();
+            yield return _savingSystem.LoadLastScene(DefaultSaveFile);
         }
 
         private void Update()

@@ -49,6 +49,8 @@ namespace SceneManagement
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
             
+            savingWrapper.Save();
+
             yield return new WaitForSecondsRealtime(waitBetweenFadesTime);
             yield return fader.FadeIn(fadeInTime);
 
