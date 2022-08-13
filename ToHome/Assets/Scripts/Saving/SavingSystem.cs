@@ -1,8 +1,7 @@
-using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Saving
 {
@@ -14,10 +13,8 @@ namespace Saving
             print("Saving to " + path);
             using (FileStream stream = File.Open(path, FileMode.Create))
             {
-                Transform playerTransform = GetPlayerTransform();
                 var binaryFormatter = new BinaryFormatter();
-                var position = new SerializableVector3(playerTransform.position);
-                binaryFormatter.Serialize(stream, position);
+                binaryFormatter.Serialize(stream, CaptureState());
             }
         }
 
@@ -28,27 +25,33 @@ namespace Saving
             using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 var binaryFormatter = new BinaryFormatter();
-                var position = (SerializableVector3) binaryFormatter.Deserialize(stream);
-                
-                var navMeshAgent = GameObject.FindWithTag("Player").GetComponent<NavMeshAgent>();
-                navMeshAgent.enabled = false;
-                
-                Transform playerTransform = GetPlayerTransform();
-                playerTransform.position = position.ToVector();
-                
-                navMeshAgent.enabled = true;
-
+                RestoreState(binaryFormatter.Deserialize(stream));
             }
         }
-        
+
         private string GetPathFromSaveFile(string fileName)
         {
             return Path.Combine(Application.persistentDataPath, fileName + ".sav");
         }
-        
-        private Transform GetPlayerTransform()
+
+        private object CaptureState()
         {
-            return GameObject.FindWithTag("Player").transform;
+            var state = new Dictionary<string, object>();
+            foreach (var entity in FindObjectsOfType<SavableEntity>())
+            {
+                state[entity.GetUniqueIdentifier()] = entity.CaptureState();
+            }
+
+            return state;
+        }
+
+        private void RestoreState(object state)
+        {
+            var stateDict = (Dictionary<string, object>) state;
+            foreach (var entity in FindObjectsOfType<SavableEntity>())
+            {
+                entity.RestoreState(stateDict[entity.GetUniqueIdentifier()]);
+            }
         }
     }
 }
