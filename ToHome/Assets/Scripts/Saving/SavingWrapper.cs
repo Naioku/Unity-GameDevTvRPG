@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Saving
@@ -8,19 +9,36 @@ namespace Saving
         [SerializeField] private KeyCode loadKey = KeyCode.L;
         
         private const string DefaultSaveFile = "save";
+        
+        private SavingSystem _savingSystem;
+
+        private void Start()
+        {
+            _savingSystem = GetComponent<SavingSystem>();
+            Load();
+        }
 
         private void Update()
         {
-            var savingSystem = GetComponent<SavingSystem>();
             if (Input.GetKeyDown(saveKey))
             {
-                savingSystem.Save(DefaultSaveFile);
+                Save();
             }
 
             if (Input.GetKeyDown(loadKey))
             {
-                savingSystem.Load(DefaultSaveFile);
+                Load();
             }
+        }
+
+        public void Save()
+        {
+            _savingSystem.Save(DefaultSaveFile);
+        }
+
+        public void Load()
+        {
+            _savingSystem.Load(DefaultSaveFile);
         }
     }
 }
