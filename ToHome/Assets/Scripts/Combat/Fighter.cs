@@ -12,17 +12,18 @@ namespace Combat
     {
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private Transform handTransform;
-        [SerializeField] private Weapon weapon;
+        [SerializeField] private Weapon defaultWeapon;
         
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
+        private Weapon _currentWeapon;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
         private static readonly int StopAttack = Animator.StringToHash("stopAttack");
 
         private void Start()
         {
-            SpawnWeapon();
+            EquipWeapon(defaultWeapon);
         }
 
         private void Update()
@@ -32,7 +33,7 @@ namespace Combat
             if (_target == null ||
                 _target.IsDead) return;
             
-            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= weapon.WeaponRange;
+            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= _currentWeapon.WeaponRange;
             if (!isInRange)
             {
                 GetComponent<Mover>().MoveTo(_target.transform.position);
@@ -44,10 +45,11 @@ namespace Combat
             }
         }
 
-        private void SpawnWeapon()
+        public void EquipWeapon(Weapon weapon)
         {
             if (weapon == null) return;
             weapon.Spawn(handTransform, GetComponent<Animator>());
+            _currentWeapon = weapon;
         }
 
         public bool CanAttack(GameObject target)
@@ -97,7 +99,7 @@ namespace Combat
         {
             if (_target == null) return;
             
-            _target.TakeDamage(weapon.WeaponDamage);
+            _target.TakeDamage(_currentWeapon.WeaponDamage);
         }
     }
 }
