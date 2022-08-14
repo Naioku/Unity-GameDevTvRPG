@@ -1,4 +1,3 @@
-using System;
 using Core;
 using Movement;
 using UnityEngine;
@@ -11,9 +10,7 @@ namespace Combat
         typeof(ActionScheduler))]
     public class Fighter : MonoBehaviour, IAction
     {
-        [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private float weaponDamage = 5f;
         [SerializeField] private Transform handTransform;
         [SerializeField] private Weapon weapon;
         
@@ -35,7 +32,7 @@ namespace Combat
             if (_target == null ||
                 _target.IsDead) return;
             
-            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= weaponRange;
+            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= weapon.WeaponRange;
             if (!isInRange)
             {
                 GetComponent<Mover>().MoveTo(_target.transform.position);
@@ -100,7 +97,7 @@ namespace Combat
         {
             if (_target == null) return;
             
-            _target.TakeDamage(weaponDamage);
+            _target.TakeDamage(weapon.WeaponDamage);
         }
     }
 }
