@@ -14,12 +14,19 @@ namespace Combat
         [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private float weaponDamage = 5f;
+        [SerializeField] private Transform handTransform;
+        [SerializeField] private Weapon weapon;
         
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
         private static readonly int StopAttack = Animator.StringToHash("stopAttack");
+
+        private void Start()
+        {
+            SpawnWeapon();
+        }
 
         private void Update()
         {
@@ -38,6 +45,12 @@ namespace Combat
                 GetComponent<Mover>().CancelAction();
                 AttackBehaviour();
             }
+        }
+
+        private void SpawnWeapon()
+        {
+            if (weapon == null) return;
+            weapon.Spawn(handTransform, GetComponent<Animator>());
         }
 
         public bool CanAttack(GameObject target)
