@@ -12,7 +12,7 @@ namespace Movement
         
         private static readonly int ForwardSpeed = Animator.StringToHash("forwardSpeed");
 
-        private void Start()
+        private void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _health = GetComponent<Health>();

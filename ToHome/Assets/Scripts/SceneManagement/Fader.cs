@@ -7,9 +7,14 @@ namespace SceneManagement
     {
         private CanvasGroup _canvasGroup;
         
-        void Start()
+        void Awake()
         {
             _canvasGroup = GetComponent<CanvasGroup>();
+        }
+
+        public void FadeOutImmediate()
+        {
+            _canvasGroup.alpha = 1f;
         }
 
         public IEnumerator FadeOut(float time)

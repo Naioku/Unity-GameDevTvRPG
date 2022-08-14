@@ -9,7 +9,7 @@ namespace Control
     {
         private Health _health;
 
-        private void Start()
+        private void Awake()
         {
             _health = GetComponent<Health>();
         }
