@@ -1,4 +1,5 @@
 using System.Collections;
+using Saving;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.SceneManagement;
@@ -37,13 +38,19 @@ namespace SceneManagement
             DontDestroyOnLoad(gameObject);
             
             var fader = FindObjectOfType<Fader>();
+            var savingWrapper = FindObjectOfType<SavingWrapper>();
+
             yield return fader.FadeOut(fadeOutTime);
+            savingWrapper.Save();
 
             yield return SceneManager.LoadSceneAsync(destinationSceneIndex);
-            
+            savingWrapper.Load();
+
             Portal otherPortal = GetOtherPortal();
             UpdatePlayer(otherPortal);
             
+            savingWrapper.Save();
+
             yield return new WaitForSecondsRealtime(waitBetweenFadesTime);
             yield return fader.FadeIn(fadeInTime);
 

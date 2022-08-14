@@ -1,3 +1,4 @@
+using System;
 using Combat;
 using Core;
 using Movement;
@@ -24,14 +25,17 @@ namespace Control
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
 
-        private void Start()
+        private void Awake()
         {
             _fighter = GetComponent<Fighter>();
             _health = GetComponent<Health>();
             _mover = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _player = GameObject.FindWithTag("Player");
+        }
 
+        private void Start()
+        {
             _guardPosition = transform.position;
         }
 
