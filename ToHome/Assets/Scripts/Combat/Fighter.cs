@@ -11,7 +11,8 @@ namespace Combat
     public class Fighter : MonoBehaviour, IAction
     {
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private Transform handTransform;
+        [SerializeField] private Transform rightHandTransform;
+        [SerializeField] private Transform leftHandTransform;
         [SerializeField] private Weapon defaultWeapon;
         
         private Health _target;
@@ -48,7 +49,7 @@ namespace Combat
         public void EquipWeapon(Weapon weapon)
         {
             if (weapon == null) return;
-            weapon.Spawn(handTransform, GetComponent<Animator>());
+            weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
             _currentWeapon = weapon;
         }
 
@@ -93,13 +94,31 @@ namespace Combat
             animator.ResetTrigger(StopAttack);
             animator.SetTrigger(Attack1); // This trigger the Hit() event.
         }
-
-        // Animation Event
+        
+        /// <summary>
+        /// Triggered by Animation Event.
+        /// </summary>
         private void Hit()
         {
             if (_target == null) return;
-            
-            _target.TakeDamage(_currentWeapon.WeaponDamage);
+
+            if (_currentWeapon.HasProjectile())
+            {
+                _currentWeapon.LunchProjectile(rightHandTransform, leftHandTransform, _target);
+            }
+            else
+            {
+                _target.TakeDamage(_currentWeapon.WeaponDamage);
+            }
+        }
+        
+        /// <summary>
+        /// Triggered by Animation Event.
+        /// Leaves the decision to weapon rather than to the animation event, weather it should be shot or not.
+        /// </summary>
+        private void Shoot()
+        {
+            Hit();
         }
     }
 }

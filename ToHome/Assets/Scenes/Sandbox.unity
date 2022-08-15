@@ -544,6 +544,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7046603684317798784}
+  - {fileID: 1723353257}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1004,6 +1005,10 @@ PrefabInstance:
       propertyPath: uniqueIdentifier
       value: 1adbbbc8-e28d-4e47-8ce8-24f92e2424ca
       objectReference: {fileID: 0}
+    - target: {fileID: 7968927115920514316, guid: b4fa1dcabafa82b408db70815a9c2c5d, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 575611df9c6fb3d40b932ab2d7295318, type: 2}
     - target: {fileID: 8074142336459202064, guid: b4fa1dcabafa82b408db70815a9c2c5d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3828,6 +3833,68 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 416864, guid: d66c89601ce96d4419ce36a4dce3c401, type: 3}
   m_PrefabInstance: {fileID: 1585033718}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1723353256
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 131167456}
+    m_Modifications:
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 71.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 115.71
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 639065109717730590, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+      propertyPath: m_Name
+      value: BowPickup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+--- !u!4 &1723353257 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 589546413576991322, guid: e08ea1e973bb1384aa55ed2c45518850, type: 3}
+  m_PrefabInstance: {fileID: 1723353256}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1782936927
 GameObject:
   m_ObjectHideFlags: 0
@@ -4477,7 +4544,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Core
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5895178859766488081, guid: 96d54727966b9854fbb34882fa9628c8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 96d54727966b9854fbb34882fa9628c8, type: 3}
 --- !u!1001 &5484540185829816147
 PrefabInstance:

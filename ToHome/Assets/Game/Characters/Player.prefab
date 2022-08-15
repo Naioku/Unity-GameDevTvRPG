@@ -35,6 +35,14 @@ PrefabInstance:
       propertyPath: weaponOverride
       value: 
       objectReference: {fileID: 22100000, guid: a3cc7e047be83c940a6b57bddb354a5c, type: 2}
+    - target: {fileID: 360949519889934883, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
+      propertyPath: leftHandTransform
+      value: 
+      objectReference: {fileID: 6235686976710684517}
+    - target: {fileID: 360949519889934883, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
+      propertyPath: rightHandTransform
+      value: 
+      objectReference: {fileID: 8060591745980493543}
     - target: {fileID: 1988362314711001347, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -98,22 +106,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1988362314711001404, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
   m_PrefabInstance: {fileID: 4078962321752582196}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &3002274441037554129
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2522990385397793032}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &7230014024086800902
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +180,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc694a7689a72304c9d33477440e8aa7, type: 3}
+--- !u!4 &6235686976710684517 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3006413525333169257, guid: bc694a7689a72304c9d33477440e8aa7, type: 3}
+  m_PrefabInstance: {fileID: 9165231409646238476}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8060591745980493543 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1219780694283884011, guid: bc694a7689a72304c9d33477440e8aa7, type: 3}
