@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2958742812093419152, guid: b4fa1dcabafa82b408db70815a9c2c5d, type: 3}
+      propertyPath: chaseDistance
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7625527284536959817, guid: b4fa1dcabafa82b408db70815a9c2c5d, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

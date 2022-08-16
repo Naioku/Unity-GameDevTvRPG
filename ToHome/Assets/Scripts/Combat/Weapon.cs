@@ -12,23 +12,41 @@ namespace Combat
         [SerializeField] private float weaponDamage;
         [SerializeField] private bool isRightHanded = true;
         [SerializeField] private Projectile projectile;
+
+        private const string WeaponName = "Weapon";
         
         public float WeaponRange => weaponRange;
         public float WeaponDamage => weaponDamage;
 
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {
-            var handTransform = GetHandTransform(rightHand, leftHand);
+            DestroyOldWeapon(rightHand, leftHand);
             
             if (equippedPrefab != null)
             {
-                Instantiate(equippedPrefab, handTransform);
+                var handTransform = GetHandTransform(rightHand, leftHand);
+                GameObject weapon = Instantiate(equippedPrefab, handTransform);
+                weapon.name = WeaponName;
+
             }
 
             if (animatorOverride != null)
             {
                 animator.runtimeAnimatorController = animatorOverride;
             }
+        }
+
+        private void DestroyOldWeapon(Transform rightHand, Transform leftHand)
+        {
+            Transform oldWeapon = rightHand.Find(WeaponName);
+            if (oldWeapon == null)
+            {
+                oldWeapon = leftHand.Find(WeaponName);
+            }
+            if (oldWeapon == null) return;
+
+            oldWeapon.name = "DESTROYING";
+            Destroy(oldWeapon.gameObject);
         }
 
         public bool HasProjectile() => projectile != null;
