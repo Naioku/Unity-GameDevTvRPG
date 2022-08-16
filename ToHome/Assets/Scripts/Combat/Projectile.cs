@@ -7,15 +7,20 @@ namespace Combat
     public class Projectile : MonoBehaviour
     { 
         [SerializeField] private float speed = 1f;
+        [SerializeField] private bool isHoming;
         
         private Health _target;
-        private float _damage = 0f;
+        private float _damage;
 
         void Update()
         {
             if (_target == null) return;
+
+            if (isHoming && !_target.IsDead)
+            {
+                transform.LookAt(GetAimLocation());
+            }
             
-            transform.LookAt(GetAimLocation());
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
@@ -23,6 +28,7 @@ namespace Combat
         {
             _target = target;
             _damage += damage;
+            transform.LookAt(GetAimLocation());
         }
 
         private Vector3 GetAimLocation()
@@ -38,6 +44,7 @@ namespace Combat
         private void OnTriggerEnter(Collider other)
         {
             if (other.GetComponent<Health>() != _target) return;
+            if (_target.IsDead) return;
             
             _target.TakeDamage(_damage);
             Destroy(gameObject);
