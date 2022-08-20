@@ -54,7 +54,8 @@ namespace Combat
         public void LunchProjectile(Transform rightHand, Transform leftHand, Health target)
         {
             Projectile projectileInstance = Instantiate(
-                projectile, GetHandTransform(rightHand, leftHand).position,
+                projectile, 
+                GetHandTransform(rightHand, leftHand).position,
                 Quaternion.identity);
             
             projectileInstance.SetTarget(target, weaponDamage);
