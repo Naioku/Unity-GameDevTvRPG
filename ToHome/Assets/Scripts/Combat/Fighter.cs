@@ -1,6 +1,6 @@
-using System;
 using Core;
 using Movement;
+using Saving;
 using UnityEngine;
 
 namespace Combat
@@ -9,17 +9,27 @@ namespace Combat
         typeof(Mover), 
         typeof(Animator),
         typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISavable
     {
-        [SerializeField] private float weaponRange = 2f;
         [SerializeField] private float timeBetweenAttacks = 1f;
-        [SerializeField] private float weaponDamage = 5f;
+        [SerializeField] private Transform rightHandTransform;
+        [SerializeField] private Transform leftHandTransform;
+        [SerializeField] private Weapon defaultWeapon;
         
         private Health _target;
         private float _timeSinceLastAttack = Mathf.Infinity;
+        private Weapon _currentWeapon;
         
         private static readonly int Attack1 = Animator.StringToHash("attack");
         private static readonly int StopAttack = Animator.StringToHash("stopAttack");
+
+        private void Start()
+        {
+            if (_currentWeapon == null)
+            {
+                EquipWeapon(defaultWeapon);
+            }
+        }
 
         private void Update()
         {
@@ -28,7 +38,7 @@ namespace Combat
             if (_target == null ||
                 _target.IsDead) return;
             
-            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= weaponRange;
+            bool isInRange = Vector3.Distance(transform.position, _target.transform.position) <= _currentWeapon.WeaponRange;
             if (!isInRange)
             {
                 GetComponent<Mover>().MoveTo(_target.transform.position);
@@ -38,6 +48,13 @@ namespace Combat
                 GetComponent<Mover>().CancelAction();
                 AttackBehaviour();
             }
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            if (weapon == null) return;
+            weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
+            _currentWeapon = weapon;
         }
 
         public bool CanAttack(GameObject target)
@@ -57,6 +74,17 @@ namespace Combat
         {
             TriggerStopAttackAnimation();
             _target = null;
+        }
+
+        public object CaptureState()
+        {
+            return _currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            var weapon = Resources.Load<Weapon>((string) state);
+            EquipWeapon(weapon);
         }
 
         private void TriggerStopAttackAnimation()
@@ -81,13 +109,31 @@ namespace Combat
             animator.ResetTrigger(StopAttack);
             animator.SetTrigger(Attack1); // This trigger the Hit() event.
         }
-
-        // Animation Event
+        
+        /// <summary>
+        /// Triggered by Animation Event.
+        /// </summary>
         private void Hit()
         {
             if (_target == null) return;
-            
-            _target.TakeDamage(weaponDamage);
+
+            if (_currentWeapon.HasProjectile())
+            {
+                _currentWeapon.LunchProjectile(rightHandTransform, leftHandTransform, _target);
+            }
+            else
+            {
+                _target.TakeDamage(_currentWeapon.WeaponDamage);
+            }
+        }
+        
+        /// <summary>
+        /// Triggered by Animation Event.
+        /// Leaves the decision to weapon rather than to the animation event, weather it should be shot or not.
+        /// </summary>
+        private void Shoot()
+        {
+            Hit();
         }
     }
 }
