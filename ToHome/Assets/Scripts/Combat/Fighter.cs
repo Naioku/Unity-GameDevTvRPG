@@ -1,5 +1,6 @@
 using Core;
 using Movement;
+using Saving;
 using UnityEngine;
 
 namespace Combat
@@ -8,7 +9,7 @@ namespace Combat
         typeof(Mover), 
         typeof(Animator),
         typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISavable
     {
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private Transform rightHandTransform;
@@ -24,7 +25,10 @@ namespace Combat
 
         private void Start()
         {
-            EquipWeapon(defaultWeapon);
+            if (_currentWeapon == null)
+            {
+                EquipWeapon(defaultWeapon);
+            }
         }
 
         private void Update()
@@ -70,6 +74,17 @@ namespace Combat
         {
             TriggerStopAttackAnimation();
             _target = null;
+        }
+
+        public object CaptureState()
+        {
+            return _currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            var weapon = Resources.Load<Weapon>((string) state);
+            EquipWeapon(weapon);
         }
 
         private void TriggerStopAttackAnimation()
