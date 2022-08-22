@@ -1,14 +1,22 @@
+using Core;
 using Saving;
+using Stats;
 using UnityEngine;
 
-namespace Core
+namespace Attributes
 {
     public class Health : MonoBehaviour, ISavable
     {
         [SerializeField] private float health = 100f;
 
-        public bool IsDead { get; private set; }
         private static readonly int DieAnimationName = Animator.StringToHash("die");
+        
+        public bool IsDead { get; private set; }
+
+        private void Start()
+        {
+            health = GetComponent<BaseStats>().GetHealth();
+        }
 
         public void TakeDamage(float damage)
         {
