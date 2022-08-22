@@ -15,7 +15,7 @@ namespace Control
             _health = GetComponent<Health>();
         }
 
-        void Update()
+        private void Update()
         {
             if (_health.IsDead) return;
             

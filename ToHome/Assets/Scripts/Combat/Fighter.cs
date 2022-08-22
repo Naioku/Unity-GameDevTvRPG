@@ -88,6 +88,8 @@ namespace Combat
             EquipWeapon(weapon);
         }
 
+        public Health GetTarget() => _target;
+
         private void TriggerStopAttackAnimation()
         {
             var animator = GetComponent<Animator>();

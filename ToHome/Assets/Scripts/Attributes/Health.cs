@@ -24,6 +24,12 @@ namespace Attributes
             RefreshDeathState();
         }
 
+        public float GetPercentage()
+        {
+            var maxHealth = GetComponent<BaseStats>().GetHealth();
+            return 100 * (health / maxHealth);
+        }
+
         private void RefreshDeathState()
         {
             if (health <= 0f)

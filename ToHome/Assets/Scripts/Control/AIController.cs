@@ -40,7 +40,7 @@ namespace Control
             _guardPosition = transform.position;
         }
 
-        void Update()
+        private void Update()
         {
             if (_health.IsDead) return;
             

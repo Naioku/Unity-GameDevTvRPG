@@ -16,7 +16,7 @@ namespace Combat
         private Health _target;
         private float _damage;
 
-        void Update()
+        private void Update()
         {
             if (_target == null) return;
 
