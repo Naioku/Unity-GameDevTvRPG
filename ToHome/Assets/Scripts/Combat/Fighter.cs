@@ -122,11 +122,11 @@ namespace Combat
 
             if (_currentWeapon.HasProjectile())
             {
-                _currentWeapon.LunchProjectile(rightHandTransform, leftHandTransform, _target);
+                _currentWeapon.LunchProjectile(gameObject, rightHandTransform, leftHandTransform, _target);
             }
             else
             {
-                _target.TakeDamage(_currentWeapon.WeaponDamage);
+                _target.TakeDamage(gameObject, _currentWeapon.WeaponDamage);
             }
         }
         

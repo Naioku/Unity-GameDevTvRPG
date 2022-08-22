@@ -17,14 +17,13 @@ namespace Combat
         {
             Health health = _fighter.GetTarget();
 
-            if (health != null)
-            {
-                GetComponent<TextMeshProUGUI>().SetText("{0:0}%", health.GetPercentage());
-            }
-            else
+            if (health == null)
             {
                 GetComponent<TextMeshProUGUI>().SetText("N/A");
+                return;
             }
+            
+            GetComponent<TextMeshProUGUI>().SetText("{0:0}%", health.GetPercentage());
         }
     }
 }

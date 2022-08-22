@@ -10,5 +10,6 @@ namespace Stats
         [SerializeField] private Progression progression;
 
         public float GetHealth() => progression.GetHealth(characterClass, startingLevel);
+        public float GetExperienceReward() => 10f;
     }
 }

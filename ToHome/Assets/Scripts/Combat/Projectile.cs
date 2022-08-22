@@ -6,15 +6,16 @@ namespace Combat
 {
     public class Projectile : MonoBehaviour
     { 
-        [SerializeField] private float speed = 1f;
-        [SerializeField] private bool isHoming;
-        [SerializeField] private GameObject hitEffect;
-        [SerializeField] private float maxLiveTime = 10f;
+        [SerializeField] private float        speed = 1f;
+        [SerializeField] private bool         isHoming;
+        [SerializeField] private GameObject   hitEffect;
+        [SerializeField] private float        maxLiveTime = 10f;
         [SerializeField] private GameObject[] destroyOnHit;
-        [SerializeField] private float lifeAfterImpact = 2f;
+        [SerializeField] private float        lifeAfterImpact = 2f;
         
-        private Health _target;
-        private float _damage;
+        private GameObject _instigator;
+        private Health     _target;
+        private float      _damage;
 
         private void Update()
         {
@@ -28,8 +29,9 @@ namespace Combat
             transform.Translate(Vector3.forward * speed * Time.deltaTime);
         }
 
-        public void SetTarget(Health target, float damage)
+        public void SetTarget(GameObject instigator, Health target, float damage)
         {
+            _instigator = instigator;
             _target = target;
             _damage += damage;
             transform.LookAt(GetAimLocation());
@@ -58,7 +60,7 @@ namespace Combat
             {
                 Instantiate(hitEffect, GetAimLocation(), Quaternion.identity);
             }
-            _target.TakeDamage(_damage);
+            _target.TakeDamage(_instigator, _damage);
 
             foreach (var obj in destroyOnHit)
             {

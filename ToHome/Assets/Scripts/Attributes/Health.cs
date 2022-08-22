@@ -18,24 +18,21 @@ namespace Attributes
             health = GetComponent<BaseStats>().GetHealth();
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(GameObject instigator, float damage)
         {
             health = Mathf.Max(health - damage, 0);
-            RefreshDeathState();
+            if (health <= 0f)
+            {
+                Die();
+
+                AwardExperience(instigator);
+            }
         }
 
         public float GetPercentage()
         {
             var maxHealth = GetComponent<BaseStats>().GetHealth();
             return 100 * (health / maxHealth);
-        }
-
-        private void RefreshDeathState()
-        {
-            if (health <= 0f)
-            {
-                Die();
-            }
         }
 
         private void Die()
@@ -47,6 +44,14 @@ namespace Attributes
             GetComponent<ActionScheduler>().CancelCurrentAction();
         }
 
+        private void AwardExperience(GameObject instigator)
+        {
+            var experience = instigator.GetComponent<Experience>();
+            if (experience == null) return;
+            
+            experience.GainExperience(GetComponent<BaseStats>().GetExperienceReward());
+        }
+
         public object CaptureState()
         {
             return health;
@@ -55,8 +60,10 @@ namespace Attributes
         public void RestoreState(object state)
         {
             health = (float) state;
-            RefreshDeathState();
-            
+            if (health <= 0f)
+            {
+                Die();
+            }
         }
     }
 }
