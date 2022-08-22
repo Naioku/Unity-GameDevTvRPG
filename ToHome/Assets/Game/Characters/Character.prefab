@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingLevel: 1
   characterClass: 1
-  progression: {fileID: 11400000, guid: beacfb6f1f26be847b5e6a1b6d69e7c6, type: 2}
+  progression: {fileID: 11400000, guid: 02349acaf72db1447b22cca22e67609b, type: 2}
 --- !u!195 &1988362314711001347
 NavMeshAgent:
   m_ObjectHideFlags: 0
