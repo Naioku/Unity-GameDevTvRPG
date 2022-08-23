@@ -42,6 +42,7 @@ namespace Saving
         public void Delete(string fileName)
         {
             File.Delete(GetPathFromSaveFile(fileName));
+            print("Game save deleted.");
         }
 
         private void SaveFile(string fileName, object state)

@@ -59,3 +59,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   saveKey: 115
   loadKey: 108
+  deleteKey: 127
+  fadeInTime: 1
