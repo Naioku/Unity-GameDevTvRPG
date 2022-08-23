@@ -21,5 +21,10 @@ namespace Attributes
         {
             experience = (float) state;
         }
+
+        public float GetExperiencePoints()
+        {
+            return experience;
+        }
     }
 }
