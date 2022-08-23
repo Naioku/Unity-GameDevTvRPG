@@ -9,7 +9,6 @@ namespace Stats
         [SerializeField] private CharacterClass characterClass = CharacterClass.Grunt;
         [SerializeField] private Progression progression;
 
-        public float GetHealth() => progression.GetHealth(characterClass, startingLevel);
-        public float GetExperienceReward() => 10f;
+        public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, startingLevel);
     }
 }

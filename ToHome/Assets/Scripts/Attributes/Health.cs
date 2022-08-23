@@ -15,7 +15,7 @@ namespace Attributes
 
         private void Start()
         {
-            health = GetComponent<BaseStats>().GetHealth();
+            health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
         }
 
         public void TakeDamage(GameObject instigator, float damage)
@@ -31,7 +31,7 @@ namespace Attributes
 
         public float GetPercentage()
         {
-            var maxHealth = GetComponent<BaseStats>().GetHealth();
+            var maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
             return 100 * (health / maxHealth);
         }
 
@@ -49,7 +49,7 @@ namespace Attributes
             var experience = instigator.GetComponent<Experience>();
             if (experience == null) return;
             
-            experience.GainExperience(GetComponent<BaseStats>().GetExperienceReward());
+            experience.GainExperience(GetComponent<BaseStats>().GetStat(Stats.Stats.ExperienceReward));
         }
 
         public object CaptureState()
