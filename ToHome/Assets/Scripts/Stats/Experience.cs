@@ -1,7 +1,7 @@
 using Saving;
 using UnityEngine;
 
-namespace Attributes
+namespace Stats
 {
     public class Experience : MonoBehaviour, ISavable
     {
@@ -22,7 +22,7 @@ namespace Attributes
             experience = (float) state;
         }
 
-        public float GetExperiencePoints()
+        public float GetPoints()
         {
             return experience;
         }

@@ -104,10 +104,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9000000, guid: d288a0e4a2d923b46898986e979da643, type: 3}
     - target: {fileID: 7067338642943883524, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
-      propertyPath: startingLevel
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7067338642943883524, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}
       propertyPath: characterClass
       value: 0
       objectReference: {fileID: 0}
@@ -142,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44daa467595b82643b9566424eeef805, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  experience: 0
 --- !u!4 &2522990385397793035 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1988362314711001407, guid: d28162e419d13ae41ab0ca8f505b6f07, type: 3}

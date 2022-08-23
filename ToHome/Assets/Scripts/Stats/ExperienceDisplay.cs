@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Attributes
+namespace Stats
 {
     public class ExperienceDisplay : MonoBehaviour
     {
@@ -14,7 +14,7 @@ namespace Attributes
 
         private void Update()
         {
-            GetComponent<TextMeshProUGUI>().SetText("{0:0}", _experience.GetExperiencePoints());
+            GetComponent<TextMeshProUGUI>().SetText("{0:0}", _experience.GetPoints());
         }
     }
 }

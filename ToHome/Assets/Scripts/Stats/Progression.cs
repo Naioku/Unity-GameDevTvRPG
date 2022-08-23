@@ -16,7 +16,13 @@ namespace Stats
             BuildLookup();
             float[] levels = _lookupTable[characterClass][stat];
             
-            return levels.Length < level ? 0f : levels[level - 1];
+            return levels.Length <= level ? 0f : levels[level];
+        }
+
+        public int GetLevels(Stats stat, CharacterClass characterClass)
+        {
+            BuildLookup();
+            return _lookupTable[characterClass][stat].Length;
         }
 
         private void BuildLookup()

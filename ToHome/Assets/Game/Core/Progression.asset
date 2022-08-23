@@ -17,15 +17,17 @@ MonoBehaviour:
     progressionStats:
     - stat: 0
       levels:
-      - 5
       - 50
       - 100
       - 200
       - 400
       - 700
-    - stat: 1
+    - stat: 2
       levels:
-      - 500
+      - 10
+      - 20
+      - 30
+      - 40
   - characterClass: 1
     progressionStats:
     - stat: 0
