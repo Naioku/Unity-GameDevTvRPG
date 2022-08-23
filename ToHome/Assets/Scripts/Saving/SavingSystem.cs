@@ -39,6 +39,11 @@ namespace Saving
             print("Game loaded.");
         }
 
+        public void Delete(string fileName)
+        {
+            File.Delete(GetPathFromSaveFile(fileName));
+        }
+
         private void SaveFile(string fileName, object state)
         {
             string path = GetPathFromSaveFile(fileName);

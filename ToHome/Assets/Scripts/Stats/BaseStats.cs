@@ -17,7 +17,7 @@ namespace Stats
             }
         }
 
-        public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, startingLevel);
+        public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, GetLevel());
 
         public int GetLevel()
         {

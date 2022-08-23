@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Saving;
 using UnityEngine;
@@ -9,6 +8,7 @@ namespace SceneManagement
     {
         [SerializeField] private KeyCode saveKey = KeyCode.S;
         [SerializeField] private KeyCode loadKey = KeyCode.L;
+        [SerializeField] private KeyCode deleteKey = KeyCode.Delete;
         [SerializeField] private float fadeInTime = 1f;
         
         private const string DefaultSaveFile = "save";
@@ -40,6 +40,11 @@ namespace SceneManagement
             {
                 Load();
             }
+            
+            if (Input.GetKeyDown(deleteKey))
+            {
+                Delete();
+            }
         }
 
         public void Save()
@@ -50,6 +55,11 @@ namespace SceneManagement
         public void Load()
         {
             _savingSystem.Load(DefaultSaveFile);
+        }
+
+        private void Delete()
+        {
+            _savingSystem.Delete(DefaultSaveFile);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Attributes
 {
     public class Health : MonoBehaviour, ISavable
     {
-        [SerializeField] private float health = 100f;
+        private float _healthPoints = -1f;
 
         private static readonly int DieAnimationName = Animator.StringToHash("die");
         
@@ -15,13 +15,16 @@ namespace Attributes
 
         private void Start()
         {
-            health = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            if (_healthPoints < 0f)
+            {
+                _healthPoints = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+            }
         }
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            health = Mathf.Max(health - damage, 0);
-            if (health <= 0f)
+            _healthPoints = Mathf.Max(_healthPoints - damage, 0);
+            if (_healthPoints <= 0f)
             {
                 Die();
 
@@ -32,7 +35,7 @@ namespace Attributes
         public float GetPercentage()
         {
             var maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
-            return 100 * (health / maxHealth);
+            return 100 * (_healthPoints / maxHealth);
         }
 
         private void Die()
@@ -54,13 +57,13 @@ namespace Attributes
 
         public object CaptureState()
         {
-            return health;
+            return _healthPoints;
         }
 
         public void RestoreState(object state)
         {
-            health = (float) state;
-            if (health <= 0f)
+            _healthPoints = (float) state;
+            if (_healthPoints <= 0f)
             {
                 Die();
             }
