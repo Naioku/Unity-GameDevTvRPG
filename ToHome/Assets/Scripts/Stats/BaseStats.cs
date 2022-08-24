@@ -9,6 +9,9 @@ namespace Stats
         [SerializeField] private int startingLevel;
         [SerializeField] private CharacterClass characterClass = CharacterClass.Grunt;
         [SerializeField] private Progression progression;
+        [SerializeField] private GameObject levelUpParticleEffect;
+
+        public event Action<float> OnLevelUp;
 
         private int _currentLevel;
 
@@ -27,9 +30,16 @@ namespace Stats
             int newLevel = CalculateLevel();
             if (newLevel > _currentLevel)
             {
+                int oldLevel = _currentLevel;
                 _currentLevel = newLevel;
-                print("Levelled up!");
+                PlayLevelUpEffect();
+                OnLevelUp?.Invoke(progression.GetStat(Stats.Health, characterClass, oldLevel));
             }
+        }
+
+        private void PlayLevelUpEffect()
+        {
+            Instantiate(levelUpParticleEffect, transform);
         }
 
         public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, CalculateLevel());

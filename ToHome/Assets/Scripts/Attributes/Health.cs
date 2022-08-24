@@ -15,10 +15,13 @@ namespace Attributes
 
         private void Start()
         {
+            var baseStats = GetComponent<BaseStats>();
             if (_healthPoints < 0f)
             {
-                _healthPoints = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+                _healthPoints = baseStats.GetStat(Stats.Stats.Health);
             }
+
+            baseStats.OnLevelUp += RestoreHealth;
         }
 
         public void TakeDamage(GameObject instigator, float damage)
@@ -36,6 +39,15 @@ namespace Attributes
         {
             var maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
             return 100 * (_healthPoints / maxHealth);
+        }
+
+        private void RestoreHealth(float oldMaxHealth)
+        {
+            var damageTaken = oldMaxHealth - _healthPoints;
+            var baseStats = GetComponent<BaseStats>();
+            var newMaxHealth = baseStats.GetStat(Stats.Stats.Health);
+
+            _healthPoints = newMaxHealth - damageTaken;
         }
 
         private void Die()
