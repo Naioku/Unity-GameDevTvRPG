@@ -11,6 +11,7 @@ namespace Combat
         [SerializeField] private GameObject equippedPrefab;
         [SerializeField] private float weaponRange;
         [SerializeField] private float weaponDamage;
+        [SerializeField] private float percentageBonus;
         [SerializeField] private bool isRightHanded = true;
         [SerializeField] private Projectile projectile;
 
@@ -18,6 +19,7 @@ namespace Combat
         
         public float WeaponRange => weaponRange;
         public float WeaponDamage => weaponDamage;
+        public float PercentageBonus => percentageBonus;
 
         public void Spawn(Transform rightHand, Transform leftHand, Animator animator)
         {

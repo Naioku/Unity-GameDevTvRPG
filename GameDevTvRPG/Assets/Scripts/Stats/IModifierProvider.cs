@@ -4,6 +4,7 @@ namespace Stats
 {
     public interface IModifierProvider
     {
-        IEnumerable<float> GetAdditiveModifier(Stats stat);
+        IEnumerable<float> GetAdditiveModifiers(Stats stat);
+        IEnumerable<float> GetPercentageModifiers(Stats stat);
     }
 }

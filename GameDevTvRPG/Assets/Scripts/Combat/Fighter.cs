@@ -92,14 +92,22 @@ namespace Combat
 
         public Health GetTarget() => _target;
 
-        public IEnumerable<float> GetAdditiveModifier(Stats.Stats stat)
+        public IEnumerable<float> GetAdditiveModifiers(Stats.Stats stat)
         {
             if (stat == Stats.Stats.Damage)
             {
                 yield return _currentWeapon.WeaponDamage;
             }
         }
-        
+
+        public IEnumerable<float> GetPercentageModifiers(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return _currentWeapon.PercentageBonus;
+            }
+        }
+
         private void TriggerStopAttackAnimation()
         {
             var animator = GetComponent<Animator>();

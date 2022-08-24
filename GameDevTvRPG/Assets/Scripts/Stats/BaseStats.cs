@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Stats
@@ -10,6 +11,7 @@ namespace Stats
         [SerializeField] private CharacterClass characterClass = CharacterClass.Grunt;
         [SerializeField] private Progression progression;
         [SerializeField] private GameObject levelUpParticleEffect;
+        [SerializeField] private bool shouldUseModifiers;
 
         public event Action<float> OnLevelUp;
 
@@ -42,9 +44,14 @@ namespace Stats
             Instantiate(levelUpParticleEffect, transform);
         }
 
-        public float GetStat(Stats stat) => 
-            progression.GetStat(stat, characterClass, CalculateLevel()) + 
-            GetAdditiveModifier(stat);
+        public float GetStat(Stats stat) => shouldUseModifiers ?
+            (GetBaseStat(stat) + GetAdditiveModifier(stat)) * (1 + GetPercentageModifier(stat)/100) :
+            GetBaseStat(stat);
+
+        private float GetBaseStat(Stats stat)
+        {
+            return progression.GetStat(stat, characterClass, CalculateLevel());
+        }
 
         public int GetLevel()
         {
@@ -69,18 +76,18 @@ namespace Stats
 
         private float GetAdditiveModifier(Stats stat)
         {
-            float sum = 0f;
-            
             IModifierProvider[] modifierProviders = GetComponents<IModifierProvider>();
-            foreach (var modifierProvider in modifierProviders)
-            {
-                foreach (float modifier in modifierProvider.GetAdditiveModifier(stat))
-                {
-                    sum += modifier;
-                }
-            }
 
-            return sum;
+            return modifierProviders.SelectMany(modifierProvider => modifierProvider.GetAdditiveModifiers(stat))
+                                    .Sum();
+        }
+
+        private float GetPercentageModifier(Stats stat)
+        {
+            IModifierProvider[] modifierProviders = GetComponents<IModifierProvider>();
+
+            return modifierProviders.SelectMany(modifierProvider => modifierProvider.GetPercentageModifiers(stat))
+                                    .Sum();
         }
     }
 }
