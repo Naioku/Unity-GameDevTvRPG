@@ -2,6 +2,7 @@ using Attributes;
 using Core;
 using Movement;
 using Saving;
+using Stats;
 using UnityEngine;
 
 namespace Combat
@@ -120,13 +121,15 @@ namespace Combat
         {
             if (_target == null) return;
 
+            var levelDamage = GetComponent<BaseStats>().GetStat(Stats.Stats.Damage);
+            // var levelDamage = 0f;
             if (_currentWeapon.HasProjectile())
             {
-                _currentWeapon.LunchProjectile(gameObject, rightHandTransform, leftHandTransform, _target);
+                _currentWeapon.LunchProjectile(gameObject, rightHandTransform, leftHandTransform, _target, levelDamage);
             }
             else
             {
-                _target.TakeDamage(gameObject, _currentWeapon.WeaponDamage);
+                _target.TakeDamage(gameObject, _currentWeapon.WeaponDamage + levelDamage);
             }
         }
         

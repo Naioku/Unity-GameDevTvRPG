@@ -14,7 +14,11 @@ namespace Attributes
 
         private void Update()
         {
-            GetComponent<TextMeshProUGUI>().SetText("{0:0}%", _health.GetPercentage());
+            GetComponent<TextMeshProUGUI>().SetText(
+                "{0:0}/{1:0}",
+                _health.GetHealthPoints(),
+                _health.GetMaxHealthPoints()
+                );
         }
     }
 }
