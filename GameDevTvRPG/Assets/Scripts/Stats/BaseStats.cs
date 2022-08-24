@@ -42,7 +42,9 @@ namespace Stats
             Instantiate(levelUpParticleEffect, transform);
         }
 
-        public float GetStat(Stats stat) => progression.GetStat(stat, characterClass, CalculateLevel());
+        public float GetStat(Stats stat) => 
+            progression.GetStat(stat, characterClass, CalculateLevel()) + 
+            GetAdditiveModifier(stat);
 
         public int GetLevel()
         {
@@ -63,6 +65,22 @@ namespace Stats
             }
             
             return maxLevel;
+        }
+
+        private float GetAdditiveModifier(Stats stat)
+        {
+            float sum = 0f;
+            
+            IModifierProvider[] modifierProviders = GetComponents<IModifierProvider>();
+            foreach (var modifierProvider in modifierProviders)
+            {
+                foreach (float modifier in modifierProvider.GetAdditiveModifier(stat))
+                {
+                    sum += modifier;
+                }
+            }
+
+            return sum;
         }
     }
 }

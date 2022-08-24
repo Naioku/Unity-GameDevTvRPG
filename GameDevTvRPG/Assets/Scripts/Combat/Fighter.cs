@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Attributes;
 using Core;
 using Movement;
@@ -11,7 +12,7 @@ namespace Combat
         typeof(Mover), 
         typeof(Animator),
         typeof(ActionScheduler))]
-    public class Fighter : MonoBehaviour, IAction, ISavable
+    public class Fighter : MonoBehaviour, IAction, ISavable, IModifierProvider
     {
         [SerializeField] private float timeBetweenAttacks = 1f;
         [SerializeField] private Transform rightHandTransform;
@@ -91,6 +92,14 @@ namespace Combat
 
         public Health GetTarget() => _target;
 
+        public IEnumerable<float> GetAdditiveModifier(Stats.Stats stat)
+        {
+            if (stat == Stats.Stats.Damage)
+            {
+                yield return _currentWeapon.WeaponDamage;
+            }
+        }
+        
         private void TriggerStopAttackAnimation()
         {
             var animator = GetComponent<Animator>();
@@ -121,15 +130,15 @@ namespace Combat
         {
             if (_target == null) return;
 
-            var levelDamage = GetComponent<BaseStats>().GetStat(Stats.Stats.Damage);
+            var damage = GetComponent<BaseStats>().GetStat(Stats.Stats.Damage);
             // var levelDamage = 0f;
             if (_currentWeapon.HasProjectile())
             {
-                _currentWeapon.LunchProjectile(gameObject, rightHandTransform, leftHandTransform, _target, levelDamage);
+                _currentWeapon.LunchProjectile(gameObject, rightHandTransform, leftHandTransform, _target, damage);
             }
             else
             {
-                _target.TakeDamage(gameObject, _currentWeapon.WeaponDamage + levelDamage);
+                _target.TakeDamage(gameObject, damage);
             }
         }
         

@@ -57,14 +57,14 @@ namespace Combat
 
         public bool HasProjectile() => projectile != null;
 
-        public void LunchProjectile(GameObject instigator, Transform rightHand, Transform leftHand, Health target, float levelDamage)
+        public void LunchProjectile(GameObject instigator, Transform rightHand, Transform leftHand, Health target, float damage)
         {
             Projectile projectileInstance = Instantiate(
                 projectile, 
                 GetHandTransform(rightHand, leftHand).position,
                 Quaternion.identity);
             
-            projectileInstance.SetTarget(instigator, target, weaponDamage + levelDamage);
+            projectileInstance.SetTarget(instigator, target, damage);
         }
 
         private Transform GetHandTransform(Transform rightHand, Transform leftHand) => 
