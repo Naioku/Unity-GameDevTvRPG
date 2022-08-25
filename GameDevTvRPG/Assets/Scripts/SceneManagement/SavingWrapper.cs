@@ -23,10 +23,9 @@ namespace SceneManagement
 
         private IEnumerator LoadLastScene()
         {
+            yield return _savingSystem.LoadLastScene(DefaultSaveFile);
             var fader = FindObjectOfType<Fader>();
             fader.FadeOutImmediate();
-            
-            yield return _savingSystem.LoadLastScene(DefaultSaveFile);
             yield return fader.FadeIn(fadeInTime);
         }
 

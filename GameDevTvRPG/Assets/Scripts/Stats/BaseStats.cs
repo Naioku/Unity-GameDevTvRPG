@@ -16,14 +16,31 @@ namespace Stats
         public event Action<float> OnLevelUp;
 
         private int _currentLevel;
+        private Experience _experience;
+
+        private void Awake()
+        {
+            _experience = GetComponent<Experience>();
+        }
 
         private void Start()
         {
             _currentLevel = CalculateLevel();
-            var experience = GetComponent<Experience>();
-            if (experience != null)
+        }
+
+        private void OnEnable()
+        {
+            if (_experience != null)
             {
-                experience.OnExperienceGained += UpdateLevel;
+                _experience.OnExperienceGained += UpdateLevel;
+            }
+        }
+        
+        private void OnDisable()
+        {
+            if (_experience != null)
+            {
+                _experience.OnExperienceGained -= UpdateLevel;
             }
         }
 

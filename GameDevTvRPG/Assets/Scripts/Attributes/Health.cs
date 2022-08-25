@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Saving;
 using Stats;
@@ -7,21 +8,30 @@ namespace Attributes
 {
     public class Health : MonoBehaviour, ISavable
     {
+        private BaseStats _baseStats;
         private float _healthPoints = -1f;
 
         private static readonly int DieAnimationName = Animator.StringToHash("die");
-        
+
         public bool IsDead { get; private set; }
 
         private void Start()
         {
-            var baseStats = GetComponent<BaseStats>();
             if (_healthPoints < 0f)
             {
-                _healthPoints = baseStats.GetStat(Stats.Stats.Health);
+                _healthPoints = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
             }
+        }
 
-            baseStats.OnLevelUp += RestoreHealth;
+        private void OnEnable()
+        {
+            GetComponent<BaseStats>().OnLevelUp += RestoreHealth;
+        }
+
+        private void OnDisable()
+        {
+            GetComponent<BaseStats>().OnLevelUp -= RestoreHealth;
+
         }
 
         public void TakeDamage(GameObject instigator, float damage)
