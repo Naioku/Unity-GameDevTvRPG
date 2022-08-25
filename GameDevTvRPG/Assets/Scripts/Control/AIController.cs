@@ -1,7 +1,7 @@
-using System;
 using Attributes;
 using Combat;
 using Core;
+using GameDevTV.Utils;
 using Movement;
 using UnityEngine;
 
@@ -21,7 +21,7 @@ namespace Control
         private ActionScheduler _actionScheduler;
         private GameObject _player;
         
-        private Vector3 _guardPosition;
+        private LazyValue<Vector3> _guardPosition;
         private int _currentWaypointIndex;
         private float _timeSinceLastSawPlayer = Mathf.Infinity;
         private float _timeSinceArrivedAtWaypoint = Mathf.Infinity;
@@ -33,11 +33,18 @@ namespace Control
             _mover = GetComponent<Mover>();
             _actionScheduler = GetComponent<ActionScheduler>();
             _player = GameObject.FindWithTag("Player");
+
+            _guardPosition = new LazyValue<Vector3>(GetInitialGuardPosition);
         }
 
         private void Start()
         {
-            _guardPosition = transform.position;
+            _guardPosition.ForceInit();
+        }
+
+        private Vector3 GetInitialGuardPosition()
+        {
+            return transform.position;
         }
 
         private void Update()
@@ -78,7 +85,7 @@ namespace Control
 
         private void PatrolBehaviour()
         {
-            Vector3 nextPosition = _guardPosition;
+            Vector3 nextPosition = _guardPosition.Value;
 
             if (patrolPath != null)
             {

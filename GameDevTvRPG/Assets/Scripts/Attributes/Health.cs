@@ -1,5 +1,6 @@
 using System;
 using Core;
+using GameDevTV.Utils;
 using Saving;
 using Stats;
 using UnityEngine;
@@ -9,18 +10,25 @@ namespace Attributes
     public class Health : MonoBehaviour, ISavable
     {
         private BaseStats _baseStats;
-        private float _healthPoints = -1f;
+        private LazyValue<float> _healthPoints;
 
         private static readonly int DieAnimationName = Animator.StringToHash("die");
 
         public bool IsDead { get; private set; }
 
+        private void Awake()
+        {
+            _healthPoints = new LazyValue<float>(GetInitialHealth);
+        }
+
+        private float GetInitialHealth()
+        {
+            return GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
+        }
+
         private void Start()
         {
-            if (_healthPoints < 0f)
-            {
-                _healthPoints = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
-            }
+            _healthPoints.ForceInit();
         }
 
         private void OnEnable()
@@ -36,10 +44,8 @@ namespace Attributes
 
         public void TakeDamage(GameObject instigator, float damage)
         {
-            print($"{gameObject.name} took damage: {damage}.");
-            
-            _healthPoints = Mathf.Max(_healthPoints - damage, 0);
-            if (_healthPoints <= 0f)
+            _healthPoints.Value = Mathf.Max(_healthPoints.Value - damage, 0);
+            if (_healthPoints.Value <= 0f)
             {
                 Die();
 
@@ -50,12 +56,12 @@ namespace Attributes
         public float GetPercentage()
         {
             var maxHealth = GetComponent<BaseStats>().GetStat(Stats.Stats.Health);
-            return 100 * (_healthPoints / maxHealth);
+            return 100 * (_healthPoints.Value / maxHealth);
         }
 
         public float GetHealthPoints()
         {
-            return _healthPoints;
+            return _healthPoints.Value;
         }
 
         public float GetMaxHealthPoints()
@@ -65,11 +71,11 @@ namespace Attributes
 
         private void RestoreHealth(float oldMaxHealth)
         {
-            var damageTaken = oldMaxHealth - _healthPoints;
+            var damageTaken = oldMaxHealth - _healthPoints.Value;
             var baseStats = GetComponent<BaseStats>();
             var newMaxHealth = baseStats.GetStat(Stats.Stats.Health);
 
-            _healthPoints = newMaxHealth - damageTaken;
+            _healthPoints.Value = newMaxHealth - damageTaken;
         }
 
         private void Die()
@@ -96,8 +102,8 @@ namespace Attributes
 
         public void RestoreState(object state)
         {
-            _healthPoints = (float) state;
-            if (_healthPoints <= 0f)
+            _healthPoints.Value = (float) state;
+            if (_healthPoints.Value <= 0f)
             {
                 Die();
             }

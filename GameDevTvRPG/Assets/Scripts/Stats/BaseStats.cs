@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using GameDevTV.Utils;
 using UnityEngine;
 
 namespace Stats
@@ -15,17 +16,18 @@ namespace Stats
 
         public event Action<float> OnLevelUp;
 
-        private int _currentLevel;
+        private LazyValue<int> _currentLevel;
         private Experience _experience;
 
         private void Awake()
         {
+            _currentLevel = new LazyValue<int>(CalculateLevel);
             _experience = GetComponent<Experience>();
         }
 
         private void Start()
         {
-            _currentLevel = CalculateLevel();
+            _currentLevel.ForceInit();
         }
 
         private void OnEnable()
@@ -47,10 +49,10 @@ namespace Stats
         private void UpdateLevel()
         {
             int newLevel = CalculateLevel();
-            if (newLevel > _currentLevel)
+            if (newLevel > _currentLevel.Value)
             {
-                int oldLevel = _currentLevel;
-                _currentLevel = newLevel;
+                int oldLevel = _currentLevel.Value;
+                _currentLevel.Value = newLevel;
                 PlayLevelUpEffect();
                 OnLevelUp?.Invoke(progression.GetStat(Stats.Health, characterClass, oldLevel));
             }
@@ -72,7 +74,7 @@ namespace Stats
 
         public int GetLevel()
         {
-            return _currentLevel;
+            return _currentLevel.Value;
         }
 
         private int CalculateLevel()
