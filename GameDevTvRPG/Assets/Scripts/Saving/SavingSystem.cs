@@ -12,16 +12,12 @@ namespace Saving
         public IEnumerator LoadLastScene(string fileName)
         {
             Dictionary<string, object> state = LoadFile(fileName);
-            
+            int buildIndex = SceneManager.GetActiveScene().buildIndex;
             if (state.ContainsKey("lastSceneBuildIndex"))
             {
-                int buildIndex = (int) state["lastSceneBuildIndex"];
-                if (buildIndex != SceneManager.GetActiveScene().buildIndex)
-                {
-                    yield return SceneManager.LoadSceneAsync(buildIndex);
-                }
+                buildIndex = (int) state["lastSceneBuildIndex"];
             }
-            
+            yield return SceneManager.LoadSceneAsync(buildIndex);
             RestoreState(state);
         }
         

@@ -51,10 +51,9 @@ namespace Movement
         public void RestoreState(object state)
         {
             GetComponent<ActionScheduler>().CancelCurrentAction();
-            var navMeshAgent = GetComponent<NavMeshAgent>();
-            navMeshAgent.enabled = false;
+            _navMeshAgent.enabled = false;
             transform.position = ((SerializableVector3) state).ToVector();
-            navMeshAgent.enabled = true;
+            _navMeshAgent.enabled = true;
         }
 
         private void UpdateAnimator()
